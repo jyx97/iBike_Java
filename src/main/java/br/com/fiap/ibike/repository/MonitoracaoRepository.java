@@ -3,8 +3,8 @@ package br.com.fiap.ibike.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import br.com.fiap.ibike.model.Usuario;
+import br.com.fiap.ibike.model.Monitoracao;
 
-public interface UserRepository extends JpaRepository <Usuario, String>, JpaSpecificationExecutor<Usuario>  {
-    
+public interface MonitoracaoRepository extends JpaRepository <Monitoracao, Long>, JpaSpecificationExecutor<Monitoracao> {
+
 }

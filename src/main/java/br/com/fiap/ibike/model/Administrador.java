@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class Admin {
+public class Administrador {
     @Id
     @NotBlank(message = "CPF é obrigatório")
     @Size(min = 11, max = 11, message = "O CPF deve conter 11 dígitos")
@@ -25,9 +25,9 @@ public class Admin {
 
     @NotNull(message = "Status é obrigatório")
     @Enumerated(EnumType.STRING)
-    private StatusAdmin status;
+    private StatusAdministrador status;
 
-    public enum StatusAdmin {
+    public enum StatusAdministrador {
         ATIVO,
         INATIVO,
         BLOQUEADO

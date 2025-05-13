@@ -8,12 +8,15 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class Bike {
+@Data
+@Entity
+public class Moto {
     @Id
     @NotBlank(message = "A placa é obrigatória")
     private String placa;
 
     @NotBlank(message = "O modelo é obrigatório")
+    @Column(unique = true)
     private String modelo;
 
     @NotNull(message = "O status é obrigatório")
@@ -29,11 +32,19 @@ public class Bike {
     @NotNull(message = "A data do último check é obrigatória")
     private LocalDate dataUltimoCheck;
 
+    @ManyToOne
+    @JoinColumn(name = "patio_id")
+    private Patio patio;
+
+    @OneToMany(mappedBy = "moto")
+    private List<Monitoracao> monitoracoes;
 
     public enum Status {
-        DISPONIVEL,
-        MANUTENCAO,
-        INDISPONIVEL
-    }
+        NO_PATIO, 
+        EM_USO, 
+        SUSPEITA, 
+        FURTADA
+}
+
 
 }
