@@ -1,36 +1,43 @@
 package br.com.fiap.ibike.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-@Data
 @Entity
+@Table(name = "administrador")
+@Data
 public class Administrador {
+
     @Id
-    @NotBlank(message = "CPF é obrigatório")
-    @Size(min = 11, max = 11, message = "O CPF deve conter 11 dígitos")
+    @Column(length = 11)
     private String cpf;
 
-    @NotBlank(message = "Nome é obrigatório")
+    @Column(name = "nm_adm", nullable = false)
     private String nome;
 
-    @Email(message = "E-mail inválido")
-    @NotBlank(message = "E-mail é obrigatório")
+    @Email
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank(message = "Senha é obrigatória")
-    @Size(min = 5, message = "A senha deve ter pelo menos 5 caracteres")
+    @NotBlank
+    @Size(min = 5)
+    @Column(nullable = false, length = 10)
     private String senha;
 
-    @NotNull(message = "Status é obrigatório")
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private StatusAdministrador status;
 
     public enum StatusAdministrador {
-        ATIVO,
-        INATIVO,
-        BLOQUEADO
+        ATIVO, INATIVO, BLOQUEADO
     }
-    
 }

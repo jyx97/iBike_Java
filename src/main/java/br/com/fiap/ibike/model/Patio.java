@@ -1,27 +1,36 @@
 package br.com.fiap.ibike.model;
 
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
 @Entity
+@Table(name = "patio")
+@Data
 public class Patio {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_patio")
     private Long id;
 
-    @NotNull
+    @Column(name = "nm_patio", nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private int capacidade;
 
-    @ManyToOne
-    @JoinColumn(name = "cpf")
-    private Admin admin;
-
-    @OneToMany(mappedBy = "patio")
-    private List<Moto> motos;
+    @ManyToMany
+    @JoinTable(
+        name = "administrador_patio",
+        joinColumns = @JoinColumn(name = "id_patio"),
+        inverseJoinColumns = @JoinColumn(name = "cpf")
+    )
+    private List<Administrador> administradores = new ArrayList<>();
 }
-

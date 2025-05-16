@@ -1,37 +1,37 @@
 package br.com.fiap.ibike.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
 import java.time.LocalDateTime;
 
-@Data
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
 @Entity
+@Table(name = "monitoracao")
+@Data
 public class Monitoracao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_monitoracao")
     private Long id;
 
-    @NotNull(message = "O tipo de evento é obrigatório")
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_evento", nullable = false)
     private TipoEvento tipoEvento;
 
-    private String descricao;
-
-    @NotNull
-    private LocalDateTime dataHora = LocalDateTime.now();
+    @Column(name = "data_hora", nullable = false)
+    private LocalDateTime dataHora;
 
     @ManyToOne
     @JoinColumn(name = "placa_moto")
     private Moto moto;
 
     public enum TipoEvento {
-        ENTRADA,
-        SAIDA,
-        ALERTA,
-        CHECAGEM
+        ENTRADA, SAIDA, ALERTA, CHECAGEM
     }
 }

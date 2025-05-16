@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import br.com.fiap.ibike.model.Patio;
 
-public interface MotoRepository extends JpaRepository <Patio, Long>, JpaSpecificationExecutor<Patio> {
+public interface PatioRepository extends JpaRepository <Patio, Long>, JpaSpecificationExecutor<Patio> {
 
 }
