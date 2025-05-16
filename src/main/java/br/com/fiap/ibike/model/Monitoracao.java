@@ -28,10 +28,14 @@ public class Monitoracao {
     private LocalDateTime dataHora;
 
     @ManyToOne
-    @JoinColumn(name = "placa_moto")
+    @JoinColumn(name = "placa")
     private Moto moto;
 
+    @ManyToOne
+    @JoinColumn(name = "id_patio", nullable = false)
+    private Patio patio;
+
     public enum TipoEvento {
-        ENTRADA, SAIDA, ALERTA, CHECAGEM
+        ENTRADA, SAIDA, ALERTA, TRIAGEM
     }
 }
