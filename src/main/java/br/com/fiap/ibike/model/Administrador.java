@@ -10,10 +10,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Builder;
 
 @Entity
 @Table(name = "administrador")
 @Data
+@Builder
 public class Administrador {
 
     @Id

@@ -7,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 @Entity
@@ -26,14 +24,6 @@ public class Monitoracao {
 
     @Column(name = "data_hora", nullable = false)
     private LocalDateTime dataHora;
-
-    @ManyToOne
-    @JoinColumn(name = "placa")
-    private Moto moto;
-
-    @ManyToOne
-    @JoinColumn(name = "id_patio", nullable = false)
-    private Patio patio;
 
     public enum TipoEvento {
         ENTRADA, SAIDA, ALERTA, TRIAGEM

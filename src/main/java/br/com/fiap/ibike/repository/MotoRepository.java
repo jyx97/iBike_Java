@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import br.com.fiap.ibike.model.Moto;
 
-public interface MotoRepository extends JpaRepository<Moto, Long>, JpaSpecificationExecutor<Moto> {
+public interface MotoRepository extends JpaRepository<Moto, String>, JpaSpecificationExecutor<Moto> {
     Page<Moto> findByStatusAndPatio(String status, String patio, Pageable pageable);
 
     Page<Moto> findByPatio(String patio, Pageable pageable);

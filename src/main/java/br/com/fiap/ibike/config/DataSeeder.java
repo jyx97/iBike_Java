@@ -1,67 +1,79 @@
+
 package br.com.fiap.ibike.config;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
-import br.com.fiap.ibike.model.Monitoracao;
-import br.com.fiap.ibike.model.Moto;
-import br.com.fiap.ibike.model.Patio;
-import br.com.fiap.ibike.repository.MonitoracaoRepository;
-import br.com.fiap.ibike.repository.MotoRepository;
-import br.com.fiap.ibike.repository.PatioRepository;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import br.com.fiap.ibike.model.Moto;
+import br.com.fiap.ibike.model.Moto.Status;
+import br.com.fiap.ibike.model.Patio;
+import br.com.fiap.ibike.repository.MotoRepository;
+import br.com.fiap.ibike.repository.PatioRepository;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class DataSeeder {
 
-    private final RestTemplate restTemplate;
-    private final MotoRepository motoRepository;
-    private final PatioRepository patioRepository;
-    private final MonitoracaoRepository monitoracaoRepository;
-
-    @Value("${mockapi.url1}")
-    private String mock1;
-
-    @Value("${mockapi.url2}")
-    private String mock2;
-
-    @Value("${mockapi.url3}")
-    private String mock3;
+    @Autowired
+    private MotoRepository repository;
 
     @Autowired
-    public DataSeeder(RestTemplate restTemplate, MotoRepository motoRepository, PatioRepository patioRepository, MonitoracaoRepository monitoracaoRepository) {
-        this.restTemplate = restTemplate;
-        this.motoRepository = motoRepository;
-        this.patioRepository = patioRepository;
-        this.monitoracaoRepository = monitoracaoRepository;
-    }
+    private PatioRepository patioRepository;
 
-    public void seed() {
-        // URLs para as chamadas API
-        String[] urls = { mock1, mock2, mock3 };
+    @PostConstruct
+    public void init() {
+        var moto = List.of( 
+                Moto.builder().placa("ABC-1234").modelo("Mottu Sport").status(Status.NO_PATIO).kmAtual(1230.5).dataUltimoCheck(LocalDate.parse("2025-04-21")).build(),
+                
+                Moto.builder().placa("DEF-5678").modelo("Mottu E").status(Status.EM_USO).kmAtual(5400).dataUltimoCheck(LocalDate.parse("2025-04-20")).build(),
+                
+                Moto.builder().placa("GHI-9012").modelo("Mottu Pop").status(Status.MANUTENÇÃO).kmAtual(870.3).dataUltimoCheck(LocalDate.parse("2025-04-22")).build(),
+                
+                Moto.builder().placa("JKL-3456").modelo("Mottu Sport").status(Status.NO_PATIO).kmAtual(2345.1).dataUltimoCheck(LocalDate.parse("2025-04-18")).build(),
 
-        for (String url : urls) {
-            Object[] dados = restTemplate.getForObject(url, Object[].class);
-            if (dados != null) {
+                Moto.builder().placa("MNO-7890").modelo("Mottu E").status(Status.PENDENTE).kmAtual(4500).dataUltimoCheck(LocalDate.parse("2025-04-19")).build()
+        );
 
-                for (Object dado : dados) {
-                    if (dado instanceof Moto) {
-                        Moto moto = (Moto) dado;
-                        motoRepository.save(moto);
-                        System.out.println("Moto salva: " + moto);
-                    } else if (dado instanceof Patio) {
-                        Patio patio = (Patio) dado;
-                        patioRepository.save(patio);
-                        System.out.println("Patio salvo: " + patio);
-                    } else if (dado instanceof Monitoracao) {
-                        Monitoracao monitoracao = (Monitoracao) dado;
-                        monitoracaoRepository.save(monitoracao);
-                        System.out.println("Monitoração salva: " + monitoracao);
-                    }
-                }
-            }
-        }
-    }
+        
+        repository.saveAll(moto);
+    
+        var patios = List.of(
+        new Patio() {{
+            setId(1L);
+            setNome("Pinheiros");
+            setCapacidade(100);
+            setStatus(StatusPatio.DISPONIVEL);
+        }},
+        new Patio() {{
+            setId(2L);
+            setNome("Moema");
+            setCapacidade(50);
+            setStatus(StatusPatio.DISPONIVEL);
+        }},
+        new Patio() {{
+            setId(3L);
+            setNome("Vila Madalena");
+            setCapacidade(70);
+            setStatus(StatusPatio.SOBRECARGA);
+        }},
+        new Patio() {{
+            setId(4L);
+            setNome("Jardins");
+            setCapacidade(40);
+            setStatus(StatusPatio.CHEIO);
+        }},
+        new Patio() {{
+            setId(5L);
+            setNome("Itaim Bibi");
+            setCapacidade(30);
+            setStatus(StatusPatio.DISPONIVEL);
+        }}
+    );
+
+    patioRepository.saveAll(patios);
+
+}
+
 }

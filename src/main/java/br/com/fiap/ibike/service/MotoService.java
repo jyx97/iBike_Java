@@ -19,16 +19,4 @@ public class MotoService {
         Specification<Moto> spec = MotoSpecification.statusEquals(status);
         return repository.findAll(spec, pageable);
     }
-
-    public Page<Moto> buscarPorPatio(String patio, Pageable pageable) {
-        Specification<Moto> spec = MotoSpecification.patioEquals(patio);
-        return repository.findAll(spec, pageable);
-    }
-
-    public Page<Moto> buscarPorStatusEPatio(String status, String patio, Pageable pageable) {
-        Specification<Moto> spec = Specification
-            .where(MotoSpecification.statusEquals(status))
-            .and(MotoSpecification.patioEquals(patio));
-        return repository.findAll(spec, pageable);
-    }
 }
