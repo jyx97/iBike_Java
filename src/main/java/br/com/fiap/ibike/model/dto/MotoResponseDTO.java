@@ -1,4 +1,4 @@
-package br.com.fiap.ibike.dto;
+package br.com.fiap.ibike.model.dto;
 
 import java.time.LocalDate;
 

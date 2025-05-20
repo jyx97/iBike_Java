@@ -1,4 +1,4 @@
-package br.com.fiap.ibike.exception;
+package br.com.fiap.ibike;
 
 import java.util.List;
 
@@ -11,20 +11,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ValidationHandler {
-
-    record ValidationErrorMessage(String field, String message) {
-        public ValidationErrorMessage(FieldError fieldError) {
-            this(fieldError.getField(), fieldError.getDefaultMessage());
+    record ValidationErrorMessage(String field,String message){
+        public ValidationErrorMessage(FieldError fieldError){
+            this(fieldError.getField(),fieldError.getDefaultMessage());
         }
     }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public List<ValidationErrorMessage> handle(MethodArgumentNotValidException e) {
+    @ExceptionHandler(exception = MethodArgumentNotValidException.class)
+    @ResponseStatus(code=HttpStatus.BAD_REQUEST)
+    public List<ValidationErrorMessage> handle(MethodArgumentNotValidException e){
         return e.getFieldErrors()
                 .stream()
-                .map(ValidationErrorMessage::new) //metodo de referencia
+                .map(ValidationErrorMessage::new)
                 .toList();
     }
-
+    
 }

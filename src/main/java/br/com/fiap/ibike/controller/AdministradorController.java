@@ -1,7 +1,9 @@
 package br.com.fiap.ibike.controller;
 
 import br.com.fiap.ibike.model.Administrador;
+import br.com.fiap.ibike.model.dto.AdministradorResponse.UserResponse;
 import br.com.fiap.ibike.repository.AdministradorRepository;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -24,16 +27,19 @@ public class AdministradorController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Criar usuário (cadastro)
+    @GetMapping
+	public List<Administrador> index() {
+		return repository.findAll();
+	}
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Administrador create(@RequestBody @Valid Administrador administrador) {
-        log.info("Cadastrando administrador: " + administrador.getEmail());
-        administrador.setSenha(passwordEncoder.encode(administrador.getSenha()));
-        return repository.save(administrador);
+    public UserResponse create(@RequestBody @Valid Administrador admin) {
+       admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+        var userSaved=repository.save(admin);
+        return new UserResponse(userSaved.getCpf(),userSaved.getEmail(),userSaved.getStatus());
     }
 
-    // Buscar os dados do próprio administrador autenticado
     @GetMapping("/me")
     public Administrador getMe() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -53,8 +59,8 @@ public class AdministradorController {
         administrador.setNome(administradorAtualizado.getNome());
 
         // Se quiser atualizar a senha, encode antes
-        if (administradorAtualizado.getSenha() != null && !administradorAtualizado.getSenha().isBlank()) {
-            administrador.setSenha(passwordEncoder.encode(administradorAtualizado.getSenha()));
+        if (administradorAtualizado.getPassword() != null && !administradorAtualizado.getPassword().isBlank()) {
+            administrador.setPassword(passwordEncoder.encode(administradorAtualizado.getPassword()));
         }
 
         return repository.save(administrador);
@@ -72,5 +78,5 @@ public class AdministradorController {
         repository.delete(administrador);
         log.info("Administrador deletado: " + email);
     }
-
+    
 }

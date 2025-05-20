@@ -1,6 +1,5 @@
 package br.com.fiap.ibike.controller;
 
-
 import br.com.fiap.ibike.model.Moto;
 import br.com.fiap.ibike.repository.MotoRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;;
 

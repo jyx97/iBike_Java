@@ -6,15 +6,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.ibike.model.Patio;
-import br.com.fiap.ibike.model.Patio.StatusPatio;
+import br.com.fiap.ibike.model.dto.PatioResponse;
+import br.com.fiap.ibike.components.StatusPatio;
 import br.com.fiap.ibike.repository.PatioRepository;
+import br.com.fiap.ibike.service.PatioService;
 import br.com.fiap.ibike.specification.PatioSpecification;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,11 +30,12 @@ public class PatioController {
     @Autowired
     private PatioRepository repository;
 
+    @Autowired
+    private PatioService patioService;
+
     @GetMapping
-    @Cacheable("patios")
-    @Operation(tags = "Patio", summary = "Pátios", description = "Devolve a lista de pátios")
-    public List<Patio> index() {
-        return repository.findAll();
+    public ResponseEntity<List<PatioResponse.PatioDTO>> listar() {
+        return ResponseEntity.ok(patioService.listarPatios());
     }
 
     @PostMapping

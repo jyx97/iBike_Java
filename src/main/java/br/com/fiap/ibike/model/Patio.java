@@ -1,14 +1,21 @@
 package br.com.fiap.ibike.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import br.com.fiap.ibike.components.StatusPatio;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "patio")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Patio {
 
     @Id
@@ -25,17 +32,8 @@ public class Patio {
     @Column(nullable = false)
     private StatusPatio status;
 
-    @ManyToMany
-    @JoinTable(
-        name = "administrador_patio",
-        joinColumns = @JoinColumn(name = "id_patio"),
-        inverseJoinColumns = @JoinColumn(name = "cpf")
-    )
-    private List<Administrador> administradores = new ArrayList<>();
+    @ToString.Exclude
+    @OneToMany(mappedBy = "patio", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Administrador> administradores;
 
-    public enum StatusPatio {
-    DISPONIVEL,   // Espaço disponível
-    CHEIO,        // Capacidade total atingida
-    SOBRECARGA    // Acima da capacidade
-}
 }
