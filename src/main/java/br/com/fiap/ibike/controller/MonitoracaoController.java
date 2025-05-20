@@ -1,5 +1,6 @@
 package br.com.fiap.ibike.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -35,6 +36,9 @@ public class MonitoracaoController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Monitoracao> create(@RequestBody @Valid Monitoracao monitoracao) {
+		//Pode colocar o dataHora a hora assim:LocalDateTime.now().minusDays(1)
+		monitoracao.setDataHora(LocalDateTime.now().minusDays(1));
+
 		log.info("Cadastrando categoria " + monitoracao.getId());
 		repository.save(monitoracao);
 		return ResponseEntity.status(201).body(monitoracao);
