@@ -159,9 +159,6 @@ server.port=8080
 jwt.secret=yourSecretKeyHere
 jwt.expirationMs=3600000
 
-# Dados MockAPI da Mottu (URL base)
-mockapi.url=https://mockapi.mottu.com.br/...
-
 # H2 Console (para debug e testes)
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
@@ -203,9 +200,8 @@ spring.h2.console.path=/h2-console
 
 ---
 
-## 🤝 Contribuição
-
-Contribuições são bem-vindas!
-Abra issues, envie pull requests, sugestões são muito apreciadas.
+## 🤝 Integrantes
+Gabriel Dias Menezes RM555019
+Júlia Soares Farias dos Santos RM554609
 
 ---
