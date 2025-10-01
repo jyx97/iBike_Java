@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head"></head>
+<body>
+<div th:replace="fragments/menu :: menu"></div>
+
+<h1 th:text="${moto.placa == null} ? 'Nova Moto' : 'Editar Moto'"></h1>
+
+<form th:action="@{${moto.placa == null} ? '/moto/salvar' : '/moto/atualizar/' + ${moto.placa}}" 
+      th:object="${moto}" method="post">
+    <label>Placa: <input th:field="*{placa}" th:readonly="${moto.placa != null}"/></label><br>
+    <label>Modelo: <input th:field="*{modelo}"/></label><br>
+    <label>Status:
+        <select th:field="*{status}">
+            <option th:value="DISPONIVEL">DISPONIVEL</option>
+            <option th:value="EM_USO">EM_USO</option>
+            <option th:value="MANUTENCAO">MANUTENCAO</option>
+        </select>
+    </label><br>
+    <label>KM Atual: <input th:field="*{kmAtual}" type="number"/></label><br>
+    <label>Data Último Check: <input th:field="*{dataUltimoCheck}" type="date"/></label><br>
+    <label>Pátio:
+        <select th:field="*{patio}">
+            <option th:each="p : ${patios}" th:value="${p}" th:text="${p.nome}"></option>
+        </select>
+    </label><br>
+    <button type="submit">Salvar</button>
+</form>
+
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
