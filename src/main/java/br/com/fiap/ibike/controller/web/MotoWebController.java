@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/motos")
+@RequestMapping("/web/motos")
 public class MotoWebController {
 
     private final MotoService motoService;

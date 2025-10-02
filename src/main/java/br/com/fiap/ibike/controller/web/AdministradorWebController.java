@@ -9,7 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/administrador")
+@RequestMapping("/web/administrador")
 public class AdministradorWebController {
 
     private final AdministradorService administradorService;
