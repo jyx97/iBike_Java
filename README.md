@@ -203,5 +203,6 @@ spring.h2.console.path=/h2-console
 ## 🤝 Integrantes
 Gabriel Dias Menezes RM555019
 Júlia Soares Farias dos Santos RM554609
+Sofia Domingues Gonçalves RM554920
 
 ---
